@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { UserRole } from "../constants";
 import { Password } from "../services/password";
 
 // An interface that describes the properties
@@ -6,6 +7,8 @@ import { Password } from "../services/password";
 interface UserAttrs {
     email: string;
     password: string;
+    deposit: string;
+    role: UserRole;
 }
 
 // An interface that describes the properties
@@ -16,9 +19,11 @@ interface UserModel extends mongoose.Model<UserDoc> {
 
 // An interface that describes the properties
 // that a User Document has
-interface UserDoc extends mongoose.Document {
+export interface UserDoc extends mongoose.Document {
     email: string;
     password: string;
+    deposit: string;
+    role: UserRole;
 }
 
 const userSchema = new mongoose.Schema(
@@ -28,6 +33,14 @@ const userSchema = new mongoose.Schema(
             required: true,
         },
         password: {
+            type: String,
+            required: true,
+        },
+        deposit: {
+            type: Number,
+            required: true,
+        },
+        role: {
             type: String,
             required: true,
         },

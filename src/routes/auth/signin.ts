@@ -1,11 +1,12 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 import { Password } from "../../services/password";
 import { User } from "../../models/user";
 import { validateRequest } from "../../middlewares/validate-request";
 import { BadRequestError } from "../../errors/bad-request-error";
+import { generateJWTToken } from "../../utils/generate-jwt-token";
 
 const router = express.Router();
 
@@ -35,19 +36,7 @@ router.post(
             throw new BadRequestError("Invalid Credentials");
         }
 
-        // Generate JWT
-        const userJwt = jwt.sign(
-            {
-                id: existingUser.id,
-                email: existingUser.email,
-            },
-            process.env.JWT_KEY!
-        );
-
-        // Store it on session object
-        req.session = {
-            jwt: userJwt,
-        };
+        generateJWTToken(existingUser, req);
 
         res.status(200).send(existingUser);
     }
