@@ -7,7 +7,7 @@ import { Password } from "../services/password";
 interface UserAttrs {
     email: string;
     password: string;
-    deposit: string;
+    deposit: number;
     role: UserRole;
 }
 
@@ -22,8 +22,9 @@ interface UserModel extends mongoose.Model<UserDoc> {
 export interface UserDoc extends mongoose.Document {
     email: string;
     password: string;
-    deposit: string;
+    deposit: number;
     role: UserRole;
+    id: string;
 }
 
 const userSchema = new mongoose.Schema(

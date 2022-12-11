@@ -16,6 +16,7 @@ export interface ProductDoc extends mongoose.Document {
     cost: number;
     productName: string;
     sellerId: string;
+    id: string;
 }
 
 const productSchema = new mongoose.Schema(
