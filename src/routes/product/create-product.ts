@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
+import { AnyExpression } from "mongoose";
 import { ROLES } from "../../constants";
+import { BadRequestError } from "../../errors/bad-request-error";
 import { authRole } from "../../middlewares/auth-role";
 import { currentUser } from "../../middlewares/current-user";
 import { validateRequest } from "../../middlewares/validate-request";
@@ -25,13 +27,18 @@ router.post(
     async (req: Request, res: Response) => {
         const { amountAvailable, cost, productName } = req.body;
 
-        const product = Product.build({
+        let product = Product.build({
             amountAvailable,
             cost,
             productName,
             sellerId: req.currentUser!.id,
         });
-        await product.save();
+
+        try {
+            await product.save();
+        } catch (err: any) {
+            throw new BadRequestError(`${err}`);
+        }
 
         res.status(201).send(product);
     }

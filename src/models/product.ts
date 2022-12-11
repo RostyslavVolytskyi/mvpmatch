@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { Password } from "../services/password";
 
 interface ProductAttrs {
     amountAvailable: number;
@@ -28,6 +27,10 @@ const productSchema = new mongoose.Schema(
         cost: {
             type: Number,
             required: true,
+            validate: {
+                validator: (cost: number) => cost % 5 === 0,
+                message: (props: any) => "should be in multiples of 5",
+            },
         },
         productName: {
             type: String,
