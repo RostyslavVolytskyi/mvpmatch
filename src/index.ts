@@ -10,6 +10,7 @@ import { signinRouter } from "./routes/auth/signin";
 import { signoutRouter } from "./routes/auth/signout";
 import { signupRouter } from "./routes/auth/signup";
 import { currentUserRouter } from "./routes/auth/current-user";
+import { isLoggedIn } from "./middlewares/is-loggedin";
 dotenv.config();
 
 mongoose.set("strictQuery", true);
@@ -23,11 +24,13 @@ app.use(
         secure: false,
     })
 );
+app.use(signinRouter);
+app.use(signupRouter);
+
+app.use(isLoggedIn);
 
 app.use(currentUserRouter);
-app.use(signinRouter);
 app.use(signoutRouter);
-app.use(signupRouter);
 
 // app.all("*", async (req, res) => {
 //     throw new NotFoundError();
