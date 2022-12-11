@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { UserRole } from "../constants";
 
 interface UserPayload {
     id: string;
     email: string;
+    role: UserRole;
 }
 
 declare global {
@@ -29,7 +31,9 @@ export const currentUser = (
             process.env.JWT_KEY!
         ) as UserPayload;
         req.currentUser = payload;
-    } catch (err) {}
+    } catch (err) {
+        console.error(err);
+    }
 
     next();
 };

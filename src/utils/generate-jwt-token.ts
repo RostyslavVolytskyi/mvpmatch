@@ -8,6 +8,7 @@ export const generateJWTToken = (user: UserDoc, req: Request) => {
         {
             id: user.id,
             email: user.email,
+            role: user.role,
         },
         process.env.JWT_KEY!
     );
