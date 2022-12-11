@@ -1,6 +1,4 @@
 import express, { Request, Response } from "express";
-import { body } from "express-validator";
-
 import { User } from "../../models/user";
 import { currentUser } from "../../middlewares/current-user";
 import { authRole } from "../../middlewares/auth-role";
