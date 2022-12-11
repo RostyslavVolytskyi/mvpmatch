@@ -17,6 +17,8 @@ import { createProductRouter } from "./routes/product/create-product";
 import { updateProductRouter } from "./routes/product/update-product";
 import { productsRouter } from "./routes/product/read-product";
 import { deleteProductRouter } from "./routes/product/delete-product";
+import { depositUserRouter } from "./routes/user/deposit";
+import { resetUserDepositRouter } from "./routes/user/reset-deposit";
 dotenv.config();
 mongoose.set("strictQuery", true);
 
@@ -45,6 +47,10 @@ app.use(createProductRouter);
 app.use(updateProductRouter);
 app.use(productsRouter);
 app.use(deleteProductRouter);
+
+// Buyer deposit
+app.use(depositUserRouter);
+app.use(resetUserDepositRouter);
 
 // app.all("*", async (req, res) => {
 //     throw new NotFoundError();

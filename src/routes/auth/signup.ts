@@ -5,6 +5,7 @@ import { validateRequest } from "../../middlewares/validate-request";
 import { User } from "../../models/user";
 import { BadRequestError } from "../../errors/bad-request-error";
 import { generateJWTToken } from "../../utils/generate-jwt-token";
+import { ROLES } from "../../constants";
 
 const router = express.Router();
 
@@ -17,7 +18,10 @@ router.post(
             .isLength({ min: 4, max: 20 })
             .withMessage("Password must be between 4 and 20 characters"),
         body("deposit").notEmpty().withMessage("Deposit should be provided"),
-        body("role").notEmpty().withMessage("Role should be provided"),
+        body("role")
+            .notEmpty()
+            .isIn([ROLES.SELLER, ROLES.BUYER])
+            .withMessage("Role should be provided"),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
