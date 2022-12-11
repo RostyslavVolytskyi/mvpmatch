@@ -11,6 +11,8 @@ import { signoutRouter } from "./routes/auth/signout";
 import { signupRouter } from "./routes/auth/signup";
 import { currentUserRouter } from "./routes/auth/current-user";
 import { isLoggedIn } from "./middlewares/is-loggedin";
+import { deleteUserRouter } from "./routes/user/delete-user";
+import { updateUserRouter } from "./routes/user/update-user";
 dotenv.config();
 
 mongoose.set("strictQuery", true);
@@ -32,6 +34,9 @@ app.use(isLoggedIn);
 app.use(currentUserRouter);
 app.use(signoutRouter);
 
+app.use(deleteUserRouter);
+app.use(updateUserRouter);
+
 // app.all("*", async (req, res) => {
 //     throw new NotFoundError();
 // });
@@ -43,8 +48,12 @@ const start = async () => {
         throw new Error("JWT_KEY must be defined");
     }
 
+    if (!process.env.DB_PATH) {
+        throw new Error("DB_PATH must be defined");
+    }
+
     try {
-        await mongoose.connect("mongodb://localhost:27017/mvpmatch", {});
+        await mongoose.connect(process.env.DB_PATH, {});
         console.log("Connected to MongoDb");
     } catch (err) {
         console.error(err);
